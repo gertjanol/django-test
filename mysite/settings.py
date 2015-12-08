@@ -80,9 +80,31 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
+    'polls': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'polls.sqlite3'),
+    },
 }
 
+DATABASE_ROUTERS = (
+    'mysite.db.SplitDatabaseRouter',
+)
+
+
+# Mapping that tells the SplitDatabaseRouter which apps can read/write/migrate to/from which database
+DATABASE_MAP_FOR_SPLIT_ROUTER = {
+    # Core or system apps
+    'admin': 'default',
+    'auth': 'default',
+    'authtoken': 'default',
+    'contenttypes': 'default',
+    'default': 'default',
+    'sessions': 'default',
+
+    # Our apps
+    'polls': 'polls',
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
